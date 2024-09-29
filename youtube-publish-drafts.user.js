@@ -6,8 +6,8 @@
 // @author       PavlenkoB
 // @match        https://studio.youtube.com/channel/*/videos/upload*
 // @icon         data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
-// @updateURL    https://raw.githubusercontent.com/PavlenkoB/tampermonkey-scripts/refs/heads/main/youtube-publish-drafts.user.js
-// @downloadURL  https://raw.githubusercontent.com/PavlenkoB/tampermonkey-scripts/refs/heads/main/youtube-publish-drafts.user.js
+// @updateURL    https://raw.githubusercontent.com/PavlenkoB/tampermonkey-scripts/main/youtube-publish-drafts.user.js
+// @downloadURL  https://raw.githubusercontent.com/PavlenkoB/tampermonkey-scripts/main/youtube-publish-drafts.user.js
 // @grant        none
 // ==/UserScript==
 
