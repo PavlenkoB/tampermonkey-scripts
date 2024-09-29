@@ -13,7 +13,7 @@
 
 (function() {
     'use strict';
-    cosole.log('Test UserScript');
+    console.log('Test UserScript');
     // Your code here...
 })();
 
