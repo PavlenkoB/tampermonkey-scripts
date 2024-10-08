@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Youtube Studio draft publisher button
 // @namespace    http://tampermonkey.net/
-// @version      0.1
+// @version      0.2
 // @description  Automatic publis all drafts on page, for youtube studio
 // @author       PavlenkoB
 // @match        https://studio.youtube.com/channel/*/videos/upload*
@@ -11,13 +11,9 @@
 // @grant        none
 // ==/UserScript==
 
-(function() {
+(function () {
     'use strict';
-    console.log('Test UserScript');
-    // Your code here...
-})();
 
-(() => {
     // -----------------------------------------------------------------
     // CONFIG (you're safe to edit this)
     // -----------------------------------------------------------------
@@ -39,36 +35,18 @@
     // END OF CONFIG (not safe to edit stuff below)
     // -----------------------------------------------------------------
 
-    // Art by Joan G. Stark
-    // .'"'.        ___,,,___        .'``.
-    // : (\  `."'"```         ```"'"-'  /) ;
-    //  :  \                         `./  .'
-    //   `.                            :.'
-    //     /        _         _        \
-    //    |         0}       {0         |
-    //    |         /         \         |
-    //    |        /           \        |
-    //    |       /             \       |
-    //     \     |      .-.      |     /
-    //      `.   | . . /   \ . . |   .'
-    //        `-._\.'.(     ).'./_.-'
-    //            `\'  `._.'  '/'
-    //              `. --'-- .'
-    //                `-...-'
-
-
-
-    // ----------------------------------
     // COMMON  STUFF
     // ---------------------------------
     const TIMEOUT_STEP_MS = 20;
     const DEFAULT_ELEMENT_TIMEOUT_MS = 10000;
+
     function debugLog(...args) {
         if (!DEBUG_MODE) {
             return;
         }
         console.debug(...args);
     }
+
     const sleep = (ms) => new Promise((resolve, _) => setTimeout(resolve, ms));
 
     async function waitForElement(selector, baseEl, timeoutMs) {
@@ -162,12 +140,15 @@
         async saveButton() {
             return await waitForElement(SAVE_BUTTON_SELECTOR, this.raw);
         }
+
         async isSaved() {
             await waitForElement(SUCCESS_ELEMENT_SELECTOR, document);
         }
+
         async dialog() {
             return await waitForElement(DIALOG_SELECTOR);
         }
+
         async save() {
             click(await this.saveButton());
             await this.isSaved();
@@ -263,90 +244,16 @@
         }
     }
 
-    // ----------------------------------
-    // SORTING STUFF
-    // ----------------------------------
-    const SORTING_MENU_BUTTON_SELECTOR = 'button';
-    const SORTING_ITEM_MENU_SELECTOR = 'tp-yt-paper-listbox#items';
-    const SORTING_ITEM_MENU_ITEM_SELECTOR = 'ytd-menu-service-item-renderer';
-    const MOVE_TO_TOP_INDEX = 4;
-    const MOVE_TO_BOTTOM_INDEX = 5;
+    var zNode = document.createElement('div');
+    zNode.innerHTML = '<button id="myButton" type="button">'
+        + 'publishDrafts click me!</button>'
+        + '<style>#myContainer{ color:red;  position:absolute; }</style>'
+    ;
+    zNode.setAttribute('id', 'myContainer');
+    document.body.appendChild(zNode);
 
-    class SortingDialog {
-        constructor(raw) {
-            this.raw = raw;
-        }
-
-        async anyMenuItem() {
-            const item =  await waitForElement(SORTING_ITEM_MENU_ITEM_SELECTOR, this.raw);
-            if (item === null) {
-                throw new Error("could not locate any menu item");
-            }
-            return item;
-        }
-
-        menuItems() {
-            return [...this.raw.querySelectorAll(SORTING_ITEM_MENU_ITEM_SELECTOR)];
-        }
-
-        async moveToTop() {
-            click(this.menuItems()[MOVE_TO_TOP_INDEX]);
-        }
-
-        async moveToBottom() {
-            click(this.menuItems()[MOVE_TO_BOTTOM_INDEX]);
-        }
-    }
-    class PlaylistVideo {
-        constructor(raw) {
-            this.raw = raw;
-        }
-        get name() {
-            return this.raw.querySelector('#video-title').textContent;
-        }
-        async dialog() {
-            return this.raw.querySelector(SORTING_MENU_BUTTON_SELECTOR);
-        }
-
-        async openDialog() {
-            click(await this.dialog());
-            const dialog = new SortingDialog(await waitForElement(SORTING_ITEM_MENU_SELECTOR));
-            await dialog.anyMenuItem();
-            return dialog;
-        }
-
-    }
-    async function playlistVideos() {
-        return [...document.querySelectorAll('ytd-playlist-video-renderer')]
-            .map((el) => new PlaylistVideo(el));
-    }
-    async function sortPlaylist() {
-        debugLog('sorting playlist');
-        const videos = await playlistVideos();
-        debugLog(`found ${videos.length} videos`);
-        videos.sort(SORTING_KEY);
-        const videoNames = videos.map((v) => v.name);
-
-        let index = 1;
-        for (let name of videoNames) {
-            debugLog({index, name});
-            const video = videos.find((v) => v.name === name);
-            const dialog = await video.openDialog();
-            await dialog.moveToBottom();
-            await sleep(1000);
-            index += 1;
-        }
-
-    }
-
-
-    // ----------------------------------
-    // ENTRY POINT
-    // ----------------------------------
-    ({
-        'publish_drafts': publishDrafts,
-        'sort_playlist': sortPlaylist,
-    })[MODE]();
-
+    document.getElementById("myButton").addEventListener(
+        "click", publishDrafts, false
+    );
 
 })();
