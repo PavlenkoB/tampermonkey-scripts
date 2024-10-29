@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Youtube Studio draft publisher button
 // @namespace    https://github.com/PavlenkoB/tampermonkey-scripts
-// @version      0.2.1
+// @version      0.2.2
 // @description  Automatic publis all drafts on page, for youtube studio
 // @author       PavlenkoB
 // @match        https://studio.youtube.com/channel/*/videos/upload*
@@ -247,7 +247,12 @@
     var zNode = document.createElement('div');
     zNode.innerHTML = '<button id="myButton" type="button">'
         + 'publishDrafts click me!</button>'
-        + '<style>#myContainer{ color:red;  position:absolute; }</style>'
+        + '<style>' +
+        '#myContainer{ color:red;  position:absolute; }' +
+        '#myButton { background-image: linear-gradient(144deg,#AF40FF, #5B42F3 50%,#00DDEB); color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 12px;' +
+        ' transition: transform 0.3s ease; }' +
+        '#myButton:hover { transform: scale(1.10); }' +
+        '</style>'
     ;
     zNode.setAttribute('id', 'myContainer');
     document.body.appendChild(zNode);
