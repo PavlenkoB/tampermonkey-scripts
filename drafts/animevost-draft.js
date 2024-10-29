@@ -9,17 +9,14 @@
 // @grant        none
 // ==/UserScript==
 
-(function() {
+(function () {
     'use strict';
 
     console.log('log')
-    console.log('log')
-    console.log('log')
-    console.log('log')
-    document.down_all=function (){
-    jQuery('.epizode').each(function(index, element){
-        return jQuery(element).click();
-    })
+    document.down_all = function () {
+        jQuery('.epizode').each(function (index, element) {
+            return jQuery(element).click();
+        })
     }
     console.log('log')
 })();

@@ -1,13 +1,13 @@
 // ==UserScript==
 // @name         Youtube Studio draft publisher button
-// @namespace    http://tampermonkey.net/
-// @version      0.2
+// @namespace    https://github.com/PavlenkoB/tampermonkey-scripts
+// @version      0.2.1
 // @description  Automatic publis all drafts on page, for youtube studio
 // @author       PavlenkoB
 // @match        https://studio.youtube.com/channel/*/videos/upload*
-// @icon         data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
-// @updateURL    https://raw.githubusercontent.com/PavlenkoB/tampermonkey-scripts/main/youtube-publish-drafts.user.js
-// @downloadURL  https://raw.githubusercontent.com/PavlenkoB/tampermonkey-scripts/main/youtube-publish-drafts.user.js
+// @iconURL      https://raw.githubusercontent.com/PavlenkoB/tampermonkey-scripts/main/favicon-32x32.png
+// @updateURL    https://raw.githubusercontent.com/PavlenkoB/tampermonkey-scripts/main/scripts/youtube-publish-drafts.user.js
+// @downloadURL  https://raw.githubusercontent.com/PavlenkoB/tampermonkey-scripts/main/scripts/youtube-publish-drafts.user.js
 // @grant        none
 // ==/UserScript==
 
@@ -37,7 +37,7 @@
 
     // COMMON  STUFF
     // ---------------------------------
-    const TIMEOUT_STEP_MS = 20;
+    const TIMEOUT_STEP_MS = 50;
     const DEFAULT_ELEMENT_TIMEOUT_MS = 10000;
 
     function debugLog(...args) {
